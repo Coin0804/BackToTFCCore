@@ -1,6 +1,5 @@
 package com.yukimods.backtotfccore.jei;
 
-import com.yukimods.backtotfccore.BackToTFCCore;
 import com.yukimods.backtotfccore.util.WorkbenchTierHelper;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.recipe.RecipeType;
