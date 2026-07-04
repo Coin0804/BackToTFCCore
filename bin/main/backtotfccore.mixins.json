@@ -3,7 +3,8 @@
     "package": "com.yukimods.backtotfccore.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "CraftingMenuMixin"
+        "CraftingMenuMixin",
+        "RecipeTransferRegistrationMixin"
     ],
     "client": [],
     "server": []

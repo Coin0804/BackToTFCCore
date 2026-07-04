@@ -2,27 +2,37 @@
 .gradle/
 build/
 !gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
 
 # IDE
 .idea/
 *.iml
-*.iws
-*.ipr
 .vscode/
 .project
 .classpath
 .settings/
+.eclipse/
+
+# Claude
+.claude/
+
+# Java
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+bin/
+
+# Minecraft
+run/
+runs/
+logs/
+*.log
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Java
-*.class
-*.jar
-!gradle/wrapper/gradle-wrapper.jar
-
-# Mod 构建产物
-run/
-logs/
-crash-reports/
+# Mod development
+repo/
