@@ -1,16 +1,15 @@
 pluginManagement {
     repositories {
-        maven {
-            name = 'NeoForged'
-            url = 'https://maven.neoforged.net/releases'
-        }
-        maven {
-            name = 'Mojang'
-            url = 'https://libraries.minecraft.net/'
-        }
-        mavenCentral()
+        maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url = 'https://maven.aliyun.com/repository/central' }
+        mavenLocal()
         gradlePluginPortal()
+        maven { url = 'https://maven.neoforged.net/releases' }
     }
+}
+
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
 
 rootProject.name = 'BackToTFCCore'

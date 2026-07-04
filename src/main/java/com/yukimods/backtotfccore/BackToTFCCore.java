@@ -1,4 +1,4 @@
-package com.backtotfccore;
+package com.yukimods.backtotfccore;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;

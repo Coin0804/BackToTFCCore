@@ -1,4 +1,4 @@
-package com.backtotfccore.mixin;
+package com.yukimods.backtotfccore.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -7,9 +7,6 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.CraftingMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,11 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  * 注入 CraftingMenu，在配方匹配阶段按工作台等级屏蔽配方。
  *
  * 设计参考 MITE：同一个 3×3 GUI，不同方块开放不同配方。
- * 实现走全标签驱动：block tag 定工作台等级，recipe tag 定配方等级。
- *
- * 1.21.1 的 slotChangedCraftingGrid 签名（mojang mappings）：
- *   (AbstractContainerMenu, Level, Player, CraftingContainer, ResultContainer)
- *   注意：RecipeHolder 在方法内部计算，不传入参，需要自己查。
+ * 全标签驱动：block tag 定工作台等级，item tag 定产物配方等级。
  */
 @Mixin(CraftingMenu.class)
 public abstract class CraftingMenuMixin {
@@ -55,8 +48,8 @@ public abstract class CraftingMenuMixin {
     /**
      * TAIL 注入：配方匹配完成后检查等级。
      *
-     * 此时产物已写入 resultSlots。如果 workbench tier 不足，
-     * 清空产物槽——玩家在 GUI 中看到的是"配方不匹配"的效果。
+     * 产物已写入 resultSlots。如果 workbench tier 不足，
+     * 清空产物槽，玩家看到的是"配方不匹配"的效果。
      */
     @Inject(
         method = "slotChangedCraftingGrid("
@@ -82,17 +75,12 @@ public abstract class CraftingMenuMixin {
         int blockTier = WorkbenchTierHelper.getBlockTier(level, pos);
         if (blockTier == 0) return; // 未标记 = 无限制
 
-        // 查询匹配的配方以获取其 tags
-        var optRecipe = level.getRecipeManager()
-                .getRecipeFor(RecipeType.CRAFTING, craftSlots, level);
-        if (optRecipe.isEmpty()) return;
-
-        RecipeHolder<CraftingRecipe> recipe = optRecipe.get();
-        int recipeTier = WorkbenchTierHelper.getRecipeTier(recipe);
+        // 通过产物 item tag 获取配方等级
+        ItemStack result = resultSlots.getItem(0);
+        int recipeTier = WorkbenchTierHelper.getResultItemTier(result);
 
         if (recipeTier > blockTier) {
             resultSlots.setItem(0, ItemStack.EMPTY);
-            // 广播容器变化，确保客户端同步
             menu.broadcastChanges();
         }
     }

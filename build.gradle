@@ -1,10 +1,25 @@
 plugins {
     id 'java-library'
-    id 'net.neoforged.gradle.userdev' version '7.0.170'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.120'
 }
 
-group = 'com.backtotfccore'
-version = '0.0.1'
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    filesMatching('**/*.toml') {
+        expand(project.properties)
+    }
+    filesMatching('**/*.mcmeta') {
+        expand(project.properties)
+    }
+}
+
+base {
+    archivesName = "${mod_id}-neoforge-${mod_version}"
+}
 
 java {
     toolchain {
@@ -12,17 +27,44 @@ java {
     }
 }
 
-base {
-    archivesName = 'BackToTFCCore'
-}
+neoForge {
+    version = project.neo_version
 
-minecraft {
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
 }
 
 repositories {
+    maven { url = 'https://maven.aliyun.com/repository/central' }
     mavenCentral()
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:21.1.233"
+    // NeoForge 由 moddev 插件自动提供
+    // 后续如需 TFC/KubeJS API 在此添加
+}
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
 }
