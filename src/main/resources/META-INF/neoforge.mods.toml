@@ -1,0 +1,27 @@
+# NeoForge 1.21.1 Mod 元数据
+
+modLoader = "javafml"
+loaderVersion = "[2,)"
+
+license = "MIT"
+
+[[mods]]
+modId = "backtotfccore"
+version = "0.0.1"
+displayName = "BackToTFC Core"
+description = """
+重返群峦核心模组 — 工作台配方分级系统。
+通过 Mixin 注入原版 CraftingMenu，实现基于标签的工作台等级限制。
+未来扩展更多 Java 侧业务逻辑。
+"""
+authors = ["重返群峦开发组"]
+
+[[dependencies.backtotfccore]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.233,)"
+
+[[dependencies.backtotfccore]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1]"
