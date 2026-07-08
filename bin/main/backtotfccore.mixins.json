@@ -4,8 +4,9 @@
     "compatibilityLevel": "JAVA_21",
     "mixins": [
         "CraftingMenuMixin",
-        "RecipeTransferRegistrationMixin"
+        "RecipeTransferRegistrationMixin",
+        "ComposterBlockEntityMixin"
     ],
-    "client": [],
+    "client": ["ComposterJadeTooltipMixin"],
     "server": []
 }
