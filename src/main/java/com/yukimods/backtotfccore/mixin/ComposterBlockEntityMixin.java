@@ -66,7 +66,7 @@ public abstract class ComposterBlockEntityMixin {
         // 新条件: green >= 4 && brown >= 4 且没腐烂 且时间到
         if (green >= 4 && brown >= 4 && !self.isRotten()
             && self.getTicksSinceUpdate() > self.getReadyTicks()) {
-            inv.setStackInSlot(0, new ItemStack(TFCItems.COMPOST.get(), total));
+            inv.setStackInSlot(0, new ItemStack(TFCItems.COMPOST.get(), Math.floorDiv(total, 4)));
             self.setState(TFCComposterBlock.CompostType.READY);
         }
 

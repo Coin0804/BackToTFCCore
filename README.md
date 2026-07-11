@@ -1,71 +1,104 @@
 # BackToTFC Core
 
-重返群峦（Return to TerraFirmaCraft）整合包核心模组。
+[English](#english) | [中文](#中文)
 
-实现基于标签（Tag）的工作台配方等级系统：通过 Mixin 注入原版 `CraftingMenu` + JEI 客户端集成，等级不足时服务端拦截合成 + JEI "+" 按钮灰掉。
+---
 
-## 功能
+## English
 
-- **服务端配方拦截**：`CraftingMenuMixin.afterSlotChanged` 在工作台 tier 不足时清空产物槽
-- **JEI 客户端集成**：`WorkbenchTransferInfo` 灰掉 JEI "+" 按钮并显示"需要 N 级工作台"
-- **网络同步**：`SyncWorkbenchPosPacket` 将工作台坐标从服务端发到客户端（解决 `ContainerLevelAccess.NULL` 问题）
-- **纯标签驱动**：block tag 定工作台 tier，item tag 定配方 tier，KubeJS `/reload` 即时生效
+Core mod for the **Return to TerraFirmaCraft** modpack. Implements a tag-driven workbench tier system, composter overhaul, and various TFC gameplay adjustments.
 
-## 架构
+### Workbench Tier System
 
-```
-服务端: CraftingMenu 构造 → 捕获 BlockPos → SyncWorkbenchPosPacket → 客户端存储
-                                                                          ↓
-JEI 刷新: canHandle() ← getClientPos() ← getClientBlockTier() ← block tag
-                ↓                              ↓
-           recipeTier vs blockTier       getResultItemTier() ← item tag
-```
+Workbenches are no longer a one-time upgrade. Each workbench has a tier (defined by block tag), and recipes have required tiers (defined by item tag). The server blocks crafting when the workbench tier is insufficient, while JEI greys out the "+" button on incompatible recipes.
 
-## 标签系统
+| Tag Type | Format | Description |
+|----------|--------|-------------|
+| Workbench tier | `backtotfccore:workbench_tier_N` | Block tag on the workbench |
+| Recipe tier | `backtotfccore:recipe_tier_N` | Item tag on the recipe output |
+| Untagged | — | No restriction, works on all workbenches |
 
-| 标签类型 | 格式 | 说明 |
-|----------|------|------|
-| 工作台等级 | `backtotfccore:workbench_tier_N` | block tag，打在方块上 |
-| 配方等级 | `backtotfccore:recipe_tier_N` | item tag，打在产物 item 上 |
-| 未标记 | — | 无限制，所有工作台通用 |
+KubeJS `server_scripts/workbench_tiers.js` handles all tier assignments. Hot-reloadable via `/reload`.
 
-KubeJS 脚本 `server_scripts/workbench_tiers.js`：
-- `#tfc:workbenches` → `workbench_tier_1`
-- IE/Create namespace item → `recipe_tier_2`
-- Mekanism/AE2 namespace item → `recipe_tier_3`
+### Composter Overhaul
 
-## 源码结构
+- **Higher threshold**: requires 4 green + 4 brown items (vanilla TFC only needed 2+2)
+- **Doubled output**: composter produces twice as much
+- **Jade compatibility**: fixed the progress display in Jade tooltips
+
+All implemented via clean Mixin injection — zero Shadow fields, zero refmaps.
+
+### Mud Brick Workbench
+
+A custom block with right-click GUI, using TFC's workbench container system. Has its own texture and recipes. Allows hide scraping on the TFC workbench surface.
+
+### Architecture
 
 ```
 src/main/java/com/yukimods/backtotfccore/
-├── BackToTFCCore.java                        # Mod 入口 + 网络包注册
+├── BackToTFCCore.java
 ├── mixin/
-│   ├── CraftingMenuMixin.java                # 服务端配方拦截 + 发网络包
-│   └── RecipeTransferRegistrationMixin.java  # 阻断原版 JEI handler
+│   ├── CraftingMenuMixin.java              # Server-side tier enforcement
+│   ├── RecipeTransferRegistrationMixin.java # JEI handler override
+│   └── ComposterBlockEntityMixin.java       # Composter threshold + yield
 ├── network/
-│   └── SyncWorkbenchPosPacket.java           # 客户端同步工作台坐标
+│   └── SyncWorkbenchPosPacket.java
 ├── jei/
-│   ├── BackToTFCJeiPlugin.java               # @JeiPlugin
-│   └── WorkbenchTransferInfo.java            # IRecipeTransferInfo 实现
+│   ├── BackToTFCJeiPlugin.java
+│   └── WorkbenchTransferInfo.java           # JEI "+" button grey-out
 └── util/
-    └── WorkbenchTierHelper.java              # 纯 tag 驱动的 tier 查询
+    └── WorkbenchTierHelper.java             # Tag-driven tier queries
 ```
 
-## 注意事项
+### Notes
 
-- `CraftingMenu.slotChangedCraftingGrid` 在 1.21.1 有 **6 个参数**（多了 `RecipeHolder`），不是 5 个
-- `ContainerLevelAccess.evaluate()` 要求 lambda 返回非 null（内部有 `requireNonNull`）
-- `slotChangedCraftingGrid` 也被 `InventoryMenu` 调用，需要 `instanceof CraftingMenu` 检查
-- JEI Plugin 需要 `META-INF/services/mezz.jei.api.IModPlugin` 手动创建
+- `CraftingMenu.slotChangedCraftingGrid` has **6 parameters** in 1.21.1 (includes `RecipeHolder`), not 5
+- `ContainerLevelAccess.evaluate()` requires non-null return (internal `requireNonNull`)
+- `slotChangedCraftingGrid` is also called by `InventoryMenu` — must guard with `instanceof CraftingMenu`
+- JEI Plugin requires manual `META-INF/services/mezz.jei.api.IModPlugin` file
 
-## 版本
+### Dependencies
 
-- Minecraft: 1.21.1
-- NeoForge: 21.1.233
-- JEI: 19.27.0.340
-- TFC: 4.1.3
-- Mod 版本: 0.0.1
+- Minecraft 1.21.1 / NeoForge 21.1.233
+- TerraFirmaCraft 4.1.3+
+- JEI 19.27.0.340+
 
-## 许可
+### License
 
-MIT License
+MIT
+
+---
+
+## 中文
+
+重返群峦整合包核心模组。实现基于标签的工作台等级系统、堆肥桶大修，以及多项 TFC 游戏性调整。
+
+### 工作台等级系统
+
+工作台不再是永久毕业。每个工作台有等级（block tag 定义），每个配方有需求等级（item tag 定义）。工作台等级不足时，服务端拦截合成，JEI 端灰掉 "+" 按钮。
+
+| 标签类型 | 格式 | 说明 |
+|----------|------|------|
+| 工作台等级 | `backtotfccore:workbench_tier_N` | 打在方块上的 block tag |
+| 配方等级 | `backtotfccore:recipe_tier_N` | 打在产物 item 上的 item tag |
+| 无标签 | — | 无限制，所有工作台通用 |
+
+KubeJS 脚本 `server_scripts/workbench_tiers.js` 管理所有等级分配，`/reload` 即可热更新。
+
+### 堆肥桶大修
+
+- **提高门槛**：需要 4 绿 + 4 棕物品（原版 TFC 仅需 2+2）
+- **产量翻倍**：堆肥桶产出翻两倍
+- **Jade 修复**：修正 Jade 工具提示中的进度显示
+
+纯 Mixin 注入实现——零 Shadow、零 refmap。
+
+### 依赖
+
+- Minecraft 1.21.1 / NeoForge 21.1.233
+- TerraFirmaCraft 4.1.3+
+- JEI 19.27.0.340+
+
+### 许可
+
+MIT 协议
