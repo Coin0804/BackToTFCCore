@@ -63,6 +63,8 @@ dependencies {
     compileOnly files('../../mods/[沉浸工程] ImmersiveEngineering-1.21.1-12.4.2-194.jar')
     // DualCodecs — IE 的 JarJar 依赖，编译时需要
     compileOnly files('libs/DualCodecs-0.1.2.jar')
+    // LDLib2 — ModularUI + 数据同步框架
+    compileOnly files('../../mods/ldlib2-neoforge-1.21.1-2.2.28-all.jar')
 }
 
 publishing {

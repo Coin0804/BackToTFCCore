@@ -1,4 +1,23 @@
 {
-    "backtotfccore.jei.transfer.error.workbench_tier_too_low": "需要 %s 级工作台",
-    "backtotfccore.composter.ready_soon": "§a随时可能转变"
+    "itemGroup.backtotfccore": "BackToTFC Core",
+    "block.backtotfccore.life_support_device": "生命维持装置",
+    "block.backtotfccore.life_support_device.tooltip": "§6右键打开控制面板",
+
+    "backtotfccore.nutrient.grain": "谷物",
+    "backtotfccore.nutrient.fruit": "水果",
+    "backtotfccore.nutrient.vegetables": "蔬菜",
+    "backtotfccore.nutrient.protein": "蛋白",
+    "backtotfccore.nutrient.dairy": "乳制品",
+
+    "backtotfccore.gui.record": "记录",
+    "backtotfccore.gui.restore": "恢复",
+    "backtotfccore.gui.collect": "收起",
+    "backtotfccore.gui.btn_0.tooltip": "§7将重生点设置到本装置位置",
+    "backtotfccore.gui.btn_1.tooltip": "§7恢复生命、口渴、饥饿、营养至目标值",
+    "backtotfccore.gui.btn_2.tooltip": "§7退出面板，方块变为掉落物",
+
+    "backtotfccore.gui.record.done": "§a✔ 重生点已设置",
+    "backtotfccore.gui.restore.done": "§a✔ 已恢复至最佳状态",
+    "backtotfccore.gui.collect.done": "§e收起中...",
+    "backtotfccore.gui.target_value": "目标值：%s"
 }

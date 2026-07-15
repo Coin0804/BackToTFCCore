@@ -1,4 +1,23 @@
 {
-    "backtotfccore.jei.transfer.error.workbench_tier_too_low": "Requires a tier %s workbench",
-    "backtotfccore.composter.ready_soon": "§aReady soon"
+    "itemGroup.backtotfccore": "BackToTFC Core",
+    "block.backtotfccore.life_support_device": "Life Support Device",
+    "block.backtotfccore.life_support_device.tooltip": "§6Right-click to open control panel",
+
+    "backtotfccore.nutrient.grain": "Grain",
+    "backtotfccore.nutrient.fruit": "Fruit",
+    "backtotfccore.nutrient.vegetables": "Vegetables",
+    "backtotfccore.nutrient.protein": "Protein",
+    "backtotfccore.nutrient.dairy": "Dairy",
+
+    "backtotfccore.gui.record": "Record",
+    "backtotfccore.gui.restore": "Restore",
+    "backtotfccore.gui.collect": "Collect",
+    "backtotfccore.gui.btn_0.tooltip": "§7Set respawn point to this device",
+    "backtotfccore.gui.btn_1.tooltip": "§7Restore HP, thirst, hunger, nutrition to target",
+    "backtotfccore.gui.btn_2.tooltip": "§7Exit panel, block drops as item",
+
+    "backtotfccore.gui.record.done": "§a✔ Respawn point set",
+    "backtotfccore.gui.restore.done": "§a✔ Restored to full status",
+    "backtotfccore.gui.collect.done": "§eCollecting...",
+    "backtotfccore.gui.target_value": "Target: %s"
 }

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ldlib2-ui xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Low-Drag-MC/LDLib2/refs/heads/1.21/ldlib2-ui.xsd">
+    <stylesheet location="ldlib2:lss/mc.lss"/>
+    <style>
+        /* ═══ 根 — 行排列（纵向）═ */
+        .ls_root {
+            flex-direction: column;
+            width: 220;
+            height: 190;
+            background: rect(#FFC6C6C6);
+        }
+
+        /* ═══ 主体区 — 列排列（横向分两栏：营养 : 按钮）═ */
+        .ls_main {
+            flex-direction: row;
+            flex-grow: 1;
+            gap-all: 2;
+        }
+
+        /* ═══ 左半 — 行排列（纵向叠 5 个营养行）═ */
+        .ls_nutrients {
+            flex-direction: column;
+            flex-grow: 1;
+            width:75%;
+            padding: 12 0 0 6;
+            gap-all: 8%;
+        }
+
+        /* 每个营养行 — 列排列（横向：标签 | 条 | 百分比）═ */
+        .ls_nutrient_row {
+            flex-direction: row;
+            align-items: center;
+            height: 12;
+            gap-all: 4;
+        }
+
+        .ls_nut_label {
+            width: 30;
+            height: 10;
+        }
+
+        /* 营养条 — 无边框纯色背景 */
+        .ls_nut_bar {
+            width: 60%;
+            height: 10;
+        }
+        .ls_nut_bar .__progress-bar_bar-container__ {
+            background: rect(#FF444444);
+        }
+        .ls_nut_bar .__progress-bar_bar__ {
+            padding: 0;
+        }
+
+
+
+        .ls_nut_ratio {
+            width: 10%;
+            height: 10;
+            text-color: #888;
+        }
+
+        /* ═══ 右半 — 行排列（纵向叠按钮）═ */
+        .ls_side_panel {
+            flex-direction: column;
+            width:20%;
+            padding: 12 6 0 0;
+            gap-all: 15%;
+        }
+
+        .ls_btn {
+            height: 18;
+        }
+
+        /* ═══ 底栏 — 状态消息（居中）═ */
+        .ls_status_pane {
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+            padding: 2 0;
+        }
+
+        .ls_status_label {
+            text-color: #FFF;
+            height: 10;
+        }
+
+    </style>
+
+    <root id="ls_root" class="ls_root">
+
+        <!-- ── 主体区（横向分两栏）── -->
+        <element id="ls_main" class="ls_main">
+
+            <!-- 左：5 个营养行（纵向叠） -->
+            <element id="ls_nutrients" class="ls_nutrients">
+                <element class="ls_nutrient_row">
+                    <label id="nut_0_label" class="ls_nut_label"/>
+                    <progress-bar id="nut_0_bar" class="ls_nut_bar" progress="0.6"/>
+                    <label id="nut_0_ratio" class="ls_nut_ratio"/>
+                </element>
+                <element class="ls_nutrient_row">
+                    <label id="nut_1_label" class="ls_nut_label"/>
+                    <progress-bar id="nut_1_bar" class="ls_nut_bar" progress="0.8"/>
+                    <label id="nut_1_ratio" class="ls_nut_ratio"/>
+                </element>
+                <element class="ls_nutrient_row">
+                    <label id="nut_2_label" class="ls_nut_label"/>
+                    <progress-bar id="nut_2_bar" class="ls_nut_bar" progress="0.3"/>
+                    <label id="nut_2_ratio" class="ls_nut_ratio"/>
+                </element>
+                <element class="ls_nutrient_row">
+                    <label id="nut_3_label" class="ls_nut_label"/>
+                    <progress-bar id="nut_3_bar" class="ls_nut_bar" progress="0.9"/>
+                    <label id="nut_3_ratio" class="ls_nut_ratio"/>
+                </element>
+                <element class="ls_nutrient_row">
+                    <label id="nut_4_label" class="ls_nut_label"/>
+                    <progress-bar id="nut_4_bar" class="ls_nut_bar" progress="0.5"/>
+                    <label id="nut_4_ratio" class="ls_nut_ratio"/>
+                </element>
+            </element>
+
+            <!-- 右：按钮面板（纵向叠） -->
+            <element id="ls_side" class="ls_side_panel">
+                <button id="btn_record" class="ls_btn"/>
+                <button id="btn_restore" class="ls_btn"/>
+                <button id="btn_collect" class="ls_btn"/>
+            </element>
+
+        </element>
+
+        <!-- ── 底栏：状态消息（居中）── -->
+        <element class="ls_status_pane">
+            <label id="status_label" class="ls_status_label"/>
+        </element>
+
+    </root>
+</ldlib2-ui>

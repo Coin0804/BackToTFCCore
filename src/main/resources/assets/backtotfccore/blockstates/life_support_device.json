@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "backtotfccore:block/life_support_device" }
+    }
+}
