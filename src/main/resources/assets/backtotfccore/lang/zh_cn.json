@@ -1,3 +1,4 @@
 {
-    "backtotfccore.jei.transfer.error.workbench_tier_too_low": "需要 %s 级工作台"
+    "backtotfccore.jei.transfer.error.workbench_tier_too_low": "需要 %s 级工作台",
+    "backtotfccore.composter.ready_soon": "§a随时可能转变"
 }

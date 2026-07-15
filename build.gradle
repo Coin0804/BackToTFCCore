@@ -54,9 +54,15 @@ repositories {
 dependencies {
     // NeoForge 由 moddev 插件自动提供
     // JEI API — compileOnly（可选集成）
-    compileOnly files('../../mods/jei-1.21.1-neoforge-19.27.0.340.jar')
+    compileOnly files('../../mods/jei-1.21.1-neoforge-19.37.0.362.jar')
     // TFC — compileOnly（Mixin 目标）
-    compileOnly files('../../mods/TerraFirmaCraft-NeoForge-1.21.1-4.1.3.jar')
+    compileOnly files('../../mods/TerraFirmaCraft-NeoForge-1.21.1-4.2.5.jar')
+    // AdvancedTFCTech — compileOnly（Mixin 目标）
+    compileOnly files('../../mods/[进阶群峦科技非官方版] AdvancedTFCTech-NeoForge-1.21.1-3.2.jar')
+    // Immersive Engineering — compileOnly（codec 依赖）
+    compileOnly files('../../mods/[沉浸工程] ImmersiveEngineering-1.21.1-12.4.2-194.jar')
+    // DualCodecs — IE 的 JarJar 依赖，编译时需要
+    compileOnly files('libs/DualCodecs-0.1.2.jar')
 }
 
 publishing {
