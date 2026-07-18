@@ -1,5 +1,16 @@
 # TODO — BackToTFC Core
 
+## 近期完成 (2026-07-18)
+
+### JEI 书签热物品冻结修复
+
+- [x] **根因分析** — TFC `HeatComponent.sanitize()` 在 `getTemperature()`/`equals()`/`onCompareItemStackComponents()` 中修改 `lastTick`/`lastTemperature`
+- [x] **lastTick=-2 冻结方案** — `sanitize()` + `calculateTemperature()` 拦截，`@ModifyArg` 替换书签 ingredient 为冻结副本
+- [x] **HeatComponentMixin** — `@Shadow lastTick/lastTemperature` + `@Inject sanitize()` + `@Inject calculateTemperature()`
+- [x] **HeatComponentAccessor** — `@Accessor lastTemperature` + `@Invoker with()`
+- [x] **JeiBookmarkFactoryMixin** — `@ModifyArg` `IngredientBookmark` 构造参数 → `ItemStack.copy()` + `invokeWith(temp, -2L)`
+- [x] **Bump 0.0.3** — 编译部署
+
 ## 近期完成 (2026-07-16)
 
 ### 生命维持装置大修

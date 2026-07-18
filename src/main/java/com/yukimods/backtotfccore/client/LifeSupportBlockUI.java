@@ -193,7 +193,7 @@ public class LifeSupportBlockUI {
         btnRestore.setOnServerClick(event -> {
             if (player instanceof ServerPlayer sp) {
                 // 从方块实体读取目标值，无 NBT 时默认全 0.5
-                float[] targets = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
+                float[] targets = {0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
                 if (level.getBlockEntity(pos) instanceof LifeSupportBlockEntity be) {
                     targets = be.getTargets();
                 }
@@ -203,9 +203,6 @@ public class LifeSupportBlockUI {
                                 targets[3], targets[4]});
                 PlayerFullResetHelper.resetPlayer(sp, foodNbt);
 
-                LOGGER.info("[LifeSupport] Restore: {} restored from BE targets=[{},{},{},{},{}|{}]",
-                    player.getName().getString(),
-                    targets[0], targets[1], targets[2], targets[3], targets[4], targets[5]);
                 statusMsg[0] = Component.translatable("backtotfccore.gui.restore.done");
                 statusUntil[0] = System.currentTimeMillis() + 3000;
             }
