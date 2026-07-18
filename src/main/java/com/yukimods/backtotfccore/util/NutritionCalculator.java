@@ -17,7 +17,6 @@ public final class NutritionCalculator {
     private static final int BASE_HUNGER = 0;
     private static final int FOOD_HUNGER = 20;
     private static final int LOCAL_1 = Math.max(0, 20 - BASE_HUNGER);
-    private static final int CUMULATIVE = LOCAL_1 + FOOD_HUNGER;
     private static final float WEIGHT = Math.max(FOOD_HUNGER, 4);
 
     private NutritionCalculator() {}
