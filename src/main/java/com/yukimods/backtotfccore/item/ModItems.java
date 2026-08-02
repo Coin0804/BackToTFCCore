@@ -22,6 +22,14 @@ public class ModItems {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS =
         DeferredRegister.create(Registries.CREATIVE_MODE_TAB, BackToTFCCore.MOD_ID);
 
+    /** 异常 — 无功能占位物品 */
+    public static final DeferredItem<Item> ANOMALY =
+        ITEMS.register("anomaly", () -> new Item(new Item.Properties()));
+
+    /** 创造模式矿脉扫描仪 — 右键扫描矿脉并标记路径点（算法见 VeinScannerHelper） */
+    public static final DeferredItem<VeinScannerItem> VEIN_SCANNER =
+        ITEMS.register("veinscanner", () -> new VeinScannerItem(new Item.Properties().stacksTo(1)));
+
     /** 生命维持装置（方块物品） */
     public static final DeferredItem<BlockItem> LIFE_SUPPORT_DEVICE =
         ITEMS.register("life_support_device", () -> new BlockItem(ModBlocks.LIFE_SUPPORT_DEVICE.get(), new Item.Properties().fireResistant()) {
@@ -44,6 +52,8 @@ public class ModItems {
             .title(Component.translatable("itemGroup." + BackToTFCCore.MOD_ID))
             .displayItems((params, output) -> {
                 output.accept(LIFE_SUPPORT_DEVICE.get());
+                output.accept(VEIN_SCANNER.get());
+                output.accept(ANOMALY.get());
             })
             .build());
 }

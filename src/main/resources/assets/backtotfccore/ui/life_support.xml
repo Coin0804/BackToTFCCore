@@ -9,6 +9,7 @@
             width: 220;
             height: 190;
             background: rect(#FFC6C6C6);
+            align-items: stretch;
         }
 
         /* ═══ 主体区 — 列排列（横向分两栏：营养 : 按钮）═ */
@@ -65,17 +66,18 @@
             flex-direction: column;
             width:20%;
             padding: 12 6 0 0;
-            gap-all: 15%;
+            gap-all: 10%;
         }
 
         .ls_btn {
             height: 18;
         }
 
-        /* ═══ 底栏 — 状态消息（居中）═ */
+        /* ═══ 底栏 — 强加载状态（常驻）+ 操作反馈（居中）═ */
         .ls_status_pane {
-            flex-direction: row;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
             width: 100%;
             padding: 2 0;
         }
@@ -83,6 +85,9 @@
         .ls_status_label {
             text-color: #FFF;
             height: 10;
+            width: 100%;
+            align-self: flex-start;
+            horizontal-align: center;
         }
 
     </style>
@@ -126,12 +131,14 @@
                 <button id="btn_record" class="ls_btn"/>
                 <button id="btn_restore" class="ls_btn"/>
                 <button id="btn_collect" class="ls_btn"/>
+                <button id="btn_chunkload" class="ls_btn"/>
             </element>
 
         </element>
 
-        <!-- ── 底栏：状态消息（居中）── -->
+        <!-- ── 底栏：强加载状态（常驻）+ 操作反馈（居中）── -->
         <element class="ls_status_pane">
+            <label id="chunkload_status" class="ls_status_label"/>
             <label id="status_label" class="ls_status_label"/>
         </element>
 

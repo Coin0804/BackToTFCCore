@@ -8,6 +8,8 @@ import com.lowdragmc.lowdraglib2.gui.ui.elements.Button;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.Label;
 import com.lowdragmc.lowdraglib2.gui.ui.elements.ProgressBar;
 import com.lowdragmc.lowdraglib2.gui.factory.BlockUIMenuType.BlockUIHolder;
+import com.lowdragmc.lowdraglib2.gui.ui.event.UIEvent;
+import com.lowdragmc.lowdraglib2.gui.ui.event.UIEventListener;
 import com.lowdragmc.lowdraglib2.utils.XmlUtils;
 import com.yukimods.backtotfccore.BackToTFCCore;
 import com.yukimods.backtotfccore.block.LifeSupportBlockEntity;
@@ -59,6 +61,9 @@ public class LifeSupportBlockUI {
         final Component[] statusMsg = new Component[]{Component.empty()};
         final long[] statusUntil = new long[]{0};
         setupStatusLabel(ui, holder.player, statusMsg, statusUntil);
+
+        setupChunkLoadStatusLabel(ui, holder.player, holder.pos);
+        setupChunkLoadButton(ui, holder, statusMsg, statusUntil);
 
         setupButtons(ui, holder, statusMsg, statusUntil);
 
@@ -166,6 +171,60 @@ public class LifeSupportBlockUI {
     }
 
     // =================================================================
+    //  强加载状态 — 常驻显示（S2C 绑定，实时刷新）
+    // =================================================================
+    private static void setupChunkLoadStatusLabel(UI ui, Player player, BlockPos pos) {
+        var label = findLabel(ui, "chunkload_status");
+
+        Supplier<Component> dataSource;
+        if (player instanceof ServerPlayer sp) {
+            dataSource = () -> {
+                if (sp.serverLevel().getBlockEntity(pos) instanceof LifeSupportBlockEntity be) {
+                    return Component.translatable(be.isChunkLoading()
+                        ? "backtotfccore.gui.chunkload.status.on"
+                        : "backtotfccore.gui.chunkload.status.off");
+                }
+                return Component.empty();
+            };
+        } else {
+            dataSource = () -> Component.empty();
+        }
+
+        var binding = DataBindingBuilder.componentS2C(dataSource).build();
+        label.bind(binding);
+    }
+
+    // =================================================================
+    //  强加载按钮 — 点击切换 5×5 区块强加载
+    // =================================================================
+    private static void setupChunkLoadButton(UI ui, BlockUIHolder holder,
+                                             Component[] statusMsg, long[] statusUntil) {
+        final var player = holder.player;
+        final var pos = holder.pos;
+        final var level = player.level();
+
+        var btnChunkLoad = findButton(ui, "btn_chunkload");
+        btnChunkLoad.setText(Component.translatable("backtotfccore.gui.chunkload.btn"));
+        btnChunkLoad.setOnServerClick(new UIEventListener() {
+            @Override
+            public void handleEvent(UIEvent event) {
+                if (player instanceof ServerPlayer) {
+                    if (level.getBlockEntity(pos) instanceof LifeSupportBlockEntity be) {
+                        be.toggleChunkLoading();
+                        boolean on = be.isChunkLoading();
+                        LOGGER.info("[LifeSupport] Chunk loading {} at {} by {}",
+                            on ? "enabled" : "disabled", pos, player.getName().getString());
+                        statusMsg[0] = Component.translatable(on
+                            ? "backtotfccore.gui.chunkload.done.on"
+                            : "backtotfccore.gui.chunkload.done.off");
+                        statusUntil[0] = System.currentTimeMillis() + 3000;
+                    }
+                }
+            }
+        });
+    }
+
+    // =================================================================
     //  按钮
     // =================================================================
     private static void setupButtons(UI ui, BlockUIHolder holder,
@@ -179,9 +238,13 @@ public class LifeSupportBlockUI {
         btnRecord.setText(Component.translatable("backtotfccore.gui.record"));
         btnRecord.setOnServerClick(event -> {
             if (player instanceof ServerPlayer sp) {
-                sp.setRespawnPosition(level.dimension(), pos, sp.getYRot(), false, true);
-                LOGGER.info("[LifeSupport] Record: respawn set for {}, dim={}, pos={}",
-                    player.getName().getString(), level.dimension(), pos);
+                // 玩家距离装置 ≤3 格 → 记录玩家脚下位置；否则降级为装置上方
+                double distSq = sp.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                BlockPos spawnPos = distSq <= 9.0 ? sp.blockPosition() : pos.above();
+                // forced=true — 装置不是床/重生锚，跳过原版检测
+                sp.setRespawnPosition(level.dimension(), spawnPos, sp.getYRot(), true, true);
+                LOGGER.info("[LifeSupport] Record: respawn set for {}, dim={}, distSq={}, spawnPos={}",
+                    player.getName().getString(), level.dimension(), distSq, spawnPos);
                 statusMsg[0] = Component.translatable("backtotfccore.gui.record.done");
                 statusUntil[0] = System.currentTimeMillis() + 3000;
             }
@@ -215,12 +278,12 @@ public class LifeSupportBlockUI {
             LOGGER.info("[LifeSupport] Collect: destroying block at {}, player={}",
                 pos, player.getName().getString());
 
-            // 保存 BE 数据到掉落物，放置后可恢复
+            // 保存 BE 数据到掉落物（含强加载状态），放置后可恢复
             ItemStack stack = new ItemStack(ModBlocks.LIFE_SUPPORT_DEVICE.get());
             if (level.getBlockEntity(pos) instanceof LifeSupportBlockEntity be) {
                 CompoundTag tag = new CompoundTag();
                 tag.putString("id", "backtotfccore:life_support_device");
-                be.writeTargetsToTag(tag);
+                be.writeFullDataToTag(tag);
                 stack.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(tag));
             }
 

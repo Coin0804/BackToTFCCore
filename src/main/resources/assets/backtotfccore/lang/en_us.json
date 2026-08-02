@@ -1,5 +1,9 @@
 {
     "itemGroup.backtotfccore": "BackToTFC Core",
+    "item.backtotfccore.anomaly": "Anomaly",
+    "item.backtotfccore.veinscanner": "Creative Vein Scanner",
+    "item.backtotfccore.veinscanner.tooltip.1": "§7Right-click to scan veins within 128 blocks",
+    "item.backtotfccore.veinscanner.tooltip.2": "§7Creates waypoints on the minimap automatically",
     "block.backtotfccore.life_support_device": "Life Support Device",
     "block.backtotfccore.life_support_device.tooltip": "§6Right-click to open control panel",
 
@@ -15,6 +19,13 @@
     "backtotfccore.gui.btn_0.tooltip": "§7Set respawn point to this device",
     "backtotfccore.gui.btn_1.tooltip": "§7Restore HP, thirst, hunger, nutrition to target",
     "backtotfccore.gui.btn_2.tooltip": "§7Exit panel, block drops as item",
+
+    "backtotfccore.gui.chunkload.btn": "Chunk Load",
+    "backtotfccore.gui.chunkload.btn.tooltip": "§7Toggle force-loading of the 5x5 chunks around this device",
+    "backtotfccore.gui.chunkload.status.on": "§a⚡ Chunk loading: ON (5x5)",
+    "backtotfccore.gui.chunkload.status.off": "§7Chunk loading: OFF",
+    "backtotfccore.gui.chunkload.done.on": "§a✔ Chunk loading enabled",
+    "backtotfccore.gui.chunkload.done.off": "§eChunk loading disabled",
 
     "backtotfccore.gui.record.done": "§a✔ Respawn point set",
     "backtotfccore.gui.restore.done": "§a✔ Restored to full status",

@@ -1,5 +1,9 @@
 {
     "itemGroup.backtotfccore": "BackToTFC Core",
+    "item.backtotfccore.anomaly": "异常",
+    "item.backtotfccore.veinscanner": "创造模式矿脉扫描仪",
+    "item.backtotfccore.veinscanner.tooltip.1": "§7右键扫描周围128格内的矿脉",
+    "item.backtotfccore.veinscanner.tooltip.2": "§7并自动在小地图上创建路径点",
     "block.backtotfccore.life_support_device": "生命维持装置",
     "block.backtotfccore.life_support_device.tooltip": "§6右键打开控制面板",
 
@@ -15,6 +19,13 @@
     "backtotfccore.gui.btn_0.tooltip": "§7将重生点设置到本装置位置",
     "backtotfccore.gui.btn_1.tooltip": "§7恢复生命、口渴、饥饿、营养至目标值",
     "backtotfccore.gui.btn_2.tooltip": "§7退出面板，方块变为掉落物",
+
+    "backtotfccore.gui.chunkload.btn": "强加载",
+    "backtotfccore.gui.chunkload.btn.tooltip": "§7切换装置周边 5×5 区块的强制加载",
+    "backtotfccore.gui.chunkload.status.on": "§a⚡ 区块强加载：已开启（5×5）",
+    "backtotfccore.gui.chunkload.status.off": "§7区块强加载：已关闭",
+    "backtotfccore.gui.chunkload.done.on": "§a✔ 已开启区块强加载",
+    "backtotfccore.gui.chunkload.done.off": "§e已关闭区块强加载",
 
     "backtotfccore.gui.record.done": "§a✔ 重生点已设置",
     "backtotfccore.gui.restore.done": "§a✔ 已恢复至最佳状态",
