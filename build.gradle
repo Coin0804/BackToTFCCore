@@ -53,18 +53,18 @@ repositories {
 
 dependencies {
     // NeoForge 由 moddev 插件自动提供
-    // JEI API — compileOnly（可选集成）
-    compileOnly files('../../mods/[JEI物品管理器] jei-1.21.1-neoforge-19.39.0.372.jar')
+    // JEI API — compileOnly（可选集成）；fileTree glob 展开 mods 目录，mod 升级无需改此处
+    compileOnly fileTree('../../mods') { include '*jei-1.21.1-neoforge-*.jar' }
     // TFC — compileOnly（Mixin 目标）
-    compileOnly files('../../mods/TerraFirmaCraft-NeoForge-1.21.1-4.2.6.jar')
+    compileOnly fileTree('../../mods') { include '*TerraFirmaCraft-NeoForge-*.jar' }
     // AdvancedTFCTech — compileOnly（Mixin 目标）
-    compileOnly files('../../mods/[进阶群峦科技非官方版] AdvancedTFCTech-NeoForge-1.21.1-3.3.jar')
+    compileOnly fileTree('../../mods') { include '*AdvancedTFCTech-NeoForge-*.jar' }
     // Immersive Engineering — compileOnly（codec 依赖）
-    compileOnly files('../../mods/[沉浸工程] ImmersiveEngineering-1.21.1-12.4.2-194.jar')
+    compileOnly fileTree('../../mods') { include '*ImmersiveEngineering-*.jar' }
     // DualCodecs — IE 的 JarJar 依赖，编译时需要
-    compileOnly files('libs/DualCodecs-0.1.2.jar')
+    compileOnly fileTree('libs') { include '*DualCodecs-*.jar' }
     // LDLib2 — ModularUI + 数据同步框架
-    compileOnly files('../../mods/ldlib2-neoforge-1.21.1-2.2.31-all.jar')
+    compileOnly fileTree('../../mods') { include '*ldlib2-neoforge-*.jar' }
 }
 
 publishing {
